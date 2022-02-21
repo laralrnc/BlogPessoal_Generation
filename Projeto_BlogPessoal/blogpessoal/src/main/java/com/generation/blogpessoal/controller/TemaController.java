@@ -81,7 +81,7 @@ public class TemaController {
 				.body(temaRepository.save(tema)))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	//existisbyid
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteTema(@PathVariable Long id)
 	{
