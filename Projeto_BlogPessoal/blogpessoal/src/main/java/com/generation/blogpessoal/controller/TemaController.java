@@ -18,26 +18,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.blogpessoal.model.Postagem;
-import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.model.Tema;
+import com.generation.blogpessoal.repository.TemaRepository;
 
 @RestController
-@RequestMapping("/postagens")
+@RequestMapping("/temas")
+// @RequestMapping("/temas") = endereço da url
 //configuração de link front e back, 
 //caso não tenha essa configuração o front e back só irá funcionar se estiverem configurados na mesma máquina
 //possibilita que cada parte funcione em um servidor diferente
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class PostagemController {
-	
-	//criação de objeto para liberar acesso aos metodos de manipulação dos dados objeto = postagemRepository
+public class TemaController {
+
+	//criação de objeto para liberar acesso aos metodos de manipulação dos dados objeto = temaRepository
 	@Autowired
-	private PostagemRepository postagemRepository;
+	private TemaRepository temaRepository;
 	
 	// criação do metodo de exibição dos dados da tabelas
 	@GetMapping 
-	public ResponseEntity <List <Postagem>> getAll()
+	public ResponseEntity <List <Tema>> getAll()
 	{
-		//findAll = exibe todos os dados =select *from tb_postagens
-		return ResponseEntity.ok(postagemRepository.findAll());
+		//findAll = exibe todos os dados =select *from tb_temas
+		return ResponseEntity.ok(temaRepository.findAll());
+	}
+	
+	//pode usar o mesmo caminho na url, contando que o verbo seja diferente
+	//inserindo um objeto no banco (todas as colunas)
+	@PostMapping
+	public  ResponseEntity <Tema> postTema(@Valid @RequestBody Tema tema)
+	{
+		return ResponseEntity.status(HttpStatus.CREATED).
+				body(temaRepository.save(tema));
 	}
 	
 	//findByID
@@ -45,50 +56,39 @@ public class PostagemController {
 	//PathVariable anotação de caminho
 	// http://localhost:8080/postagens/3. 3 = "/{id}"
 	@GetMapping("/{id}")
-	public ResponseEntity <Postagem> getById(@PathVariable Long id)
+	public ResponseEntity <Tema> getById(@PathVariable Long id)
 	{
 		//lambda = (resposta -> retorno)
-		return postagemRepository.findById(id)
+		return temaRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	//("/titulo/{titulo}") == ("/nomeColuna/{Valor da variavel}")
-	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity <List <Postagem>> getByTitulo(@PathVariable String titulo)
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity <List <Tema>> getByTitulo(@PathVariable String descricao)
 	{
-		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
+		return ResponseEntity.ok(temaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
 	}
 	
-	//pode usar o mesmo caminho na url, contando que o verbo seja diferente
-	//inserindo um objeto no banco (todas as colunas)
-	@PostMapping
-	public ResponseEntity<Postagem> postPostagem (@Valid @RequestBody Postagem postagem)
-	{
-		return ResponseEntity.status(HttpStatus.CREATED).
-				body(postagemRepository.save(postagem));
-	}
 	//metodo de atualização
 	//
 	@PutMapping
-	public ResponseEntity<Postagem> putPostagem (@Valid @RequestBody Postagem postagem)
+	public ResponseEntity<Tema> putTema (@Valid @RequestBody Tema tema)
 	{
-		return postagemRepository.findById(postagem.getId())
+		return temaRepository.findById(tema.getId())
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-				.body(postagemRepository.save(postagem)))
+				.body(temaRepository.save(tema)))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
+	//existisbyid
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePostagem(@PathVariable Long id)
+	public ResponseEntity<?> deleteTema(@PathVariable Long id)
 	{
-		return postagemRepository.findById(id).map(resposta -> 
+		return temaRepository.findById(id).map(resposta -> 
 		{
-				postagemRepository.deleteById(id);
+			temaRepository.deleteById(id);
 				return ResponseEntity.noContent().build();
 		}).orElse(ResponseEntity.notFound().build());
 	}
-
-
-};
-
+ }

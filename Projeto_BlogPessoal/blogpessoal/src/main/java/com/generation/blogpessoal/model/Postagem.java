@@ -6,10 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 // identificando que esta classe criará uma tabela no db
@@ -39,6 +44,12 @@ public class Postagem {
 	@UpdateTimestamp
 	private LocalDateTime data;
 	
+	//adicionanndo o objeto tema = relacionar a tabela tema com a tabela postagem
+	//várias postagens possuem um único tema = @ManytoOne
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Tema tema;
+	
 	//Métodos Get and Set
 	public Long getId() {
 		return id;
@@ -48,6 +59,12 @@ public class Postagem {
 	}
 	public String getTitulo() {
 		return titulo;
+	}
+	public Tema getTema() {
+		return tema;
+	}
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
