@@ -19,9 +19,5 @@ public interface TemaRepository extends JpaRepository <Tema, Long> {
 	//IgnoreCase = não diferenciar maiusculo de minusculo
 	//String descricao = especifica a coluna
 	public List <Tema> findAllByDescricaoContainingIgnoreCase(String descricao);
-
-	public boolean existsById(boolean b);
-	
-
 	
 }
