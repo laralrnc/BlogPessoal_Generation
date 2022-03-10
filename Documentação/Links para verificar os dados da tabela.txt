@@ -1,0 +1,6 @@
+LISTA TODAS AS POSTAGENS
+https://laralrncod.herokuapp.com/postagens
+LISTAS TODOS OS USUÁRIOS
+https://laralrncod.herokuapp.com/usuarios/all
+LISTAS TODOS OS TEMAS
+https://laralrncod.herokuapp.com/temas
