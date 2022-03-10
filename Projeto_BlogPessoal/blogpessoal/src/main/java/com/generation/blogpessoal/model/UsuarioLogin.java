@@ -22,6 +22,17 @@ public class UsuarioLogin {
 
 	//mais um atributo com relação a classe model que cria tabela
 	private String token;
+	
+	public UsuarioLogin(Long id, String nome, String usuario, String senha, String foto, String token) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+		this.token = token;
+	}
+
+	public UsuarioLogin() {	}
 
 	public Long getId() {
 		return id;
