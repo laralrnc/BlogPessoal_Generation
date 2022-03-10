@@ -34,7 +34,7 @@ public class Tema {
 	//mappedBy = nomeia o relacionamento
 	//CascadeType = relaciona os temas com todas as postagens. 
 	//Ex: quando um tema é apagado todas as postagens relacionadas a ele são apagadas
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("tema")
 	private List <Postagem> postagem;
 
